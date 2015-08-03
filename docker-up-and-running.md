@@ -43,7 +43,7 @@ The above commands will not remove images, containers, volumes, or user created 
 
 > $ rm -rf /var/lib/docker
 
-##Configuration of Docker
+##Initial Configuration of Docker
 
 To enable a user to run docker containers, the user must be part of the docker group. 
 
@@ -51,4 +51,29 @@ To enable a user to run docker containers, the user must be part of the docker g
 
 Remember that you will have to log out and back in for this to take effect!
 
+##Very first steps
+
+> $ docker version
+
+If you have followed my steps the output will contain an error message, because the docker daemon is not started yet.
+
+> $ sudo service docker start
+
+If you call *docker version* again the error message is gone.
+
+> $ docker -D info
+
+A little bit more informations about your docker installation. Clearly we have no images/containers yet.
+
+> $ docker run hello-world
+
+Yeahaa, cowboy! You have successfully fetched an public image (hello-world) from the global repository and executed it.
+
+> $ docker ps -a
+
+No containers running, the last one existed a while ago.
+
+> $ docker
+
+Now play around with all that options ;)
 
