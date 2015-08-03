@@ -2,7 +2,7 @@
 
 ## Topic of this Project
 
-As a demo project on how to use [Docker](www.docker.dom) in practice, I'm going to restructure www.tomagin.com to host more than just my old photoblog. Since this domain is running on a low-budget virtual instance I'm quite interested to see how much services I can run on it.
+As a demo project on how to use [Docker](www.docker.dom) in practice, I'm going to restructure www.tomagine.com to host more than just my old photoblog. Since this domain is running on a low-budget virtual instance I'm quite interested to see how much services I can run on it.
 
 ## Host environment
 
