@@ -15,13 +15,11 @@ Docker consists of two major parts:
 1. the docker engine to run containers
 2. the docker image repository
 
-Docker distinguishes between images and containers. Containers are based on images (the readonly part of their filesystem) and contain a temporary files which is layered above the readonly image to capture all changes.
+Docker distinguishes between images and containers. Containers are based on images (the readonly part of their filesystem) and contain a temporary files which is layered above one or more readonly images to capture all changes.
 
-At any point the base image and a container can be baked together to form a new image.
+Due to the fact that most images only holds the changes to their parent image (deltas), most images are quite small and can be transfered between different environments within seconds.
 
-Due to the fact containers only holds the changes to the filesystem (deltas), containers itself are normally quite small and can be transfered between different environments within seconds.
-
-If there are no changes to the filesystem you want to keep, you can delete the container once you have stopped it. This way you can treat your containers as **immutable server**.
+If there are no changes to the filesystem you want to keep, you can delete the container once you have stopped it. This way you can treat your containers as **immutable servers** starting always from a readonly image.
 
 Docker is based on [LXC (Linux Containers)](https://en.wikipedia.org/wiki/LXC).
 
@@ -86,6 +84,4 @@ If you have followed my steps the output of the first command will contain an er
 
 **Note 1:** The hello-world image is an extreme example of a docker image, because it just contains a single statically linked binary (910 bytes in total).
 
-**Note 2:** Each call of *docker run* produces a new container
-
-**Note 2:** Why are there 2 images in the local repository with identical sizes?
+**Note 2:** Each call to *docker run* produces a new container. To start a stopped container you can use *docker start*
