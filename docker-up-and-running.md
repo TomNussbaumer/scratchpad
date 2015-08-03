@@ -15,11 +15,13 @@ Docker consists of two major parts:
 1. the docker engine to run containers
 2. the docker image repository
 
-Docker images are strictly readonly. To enable writing for the runtime, a temporary filesystem is layered upon the readonly image which captures all changes. At any point this temporary filesystem can be committed as own image (holding a reference to the base image). Due to the fact that this filesystem holds only changes (deltas), the new image is normally quite small and can be transfered between different environments within seconds.
+Docker distinguishes between images and containers. Containers are based on images (the readonly part of their filesystem) and contain a temporary files which is layered above the readonly image to capture all changes.
 
-As far as I know there is no limit on how much images can be layered this way for a single running container. Nevertheless it's a good idea to collapse the image stack into a single image once in a while to prevent performance degration. 
+At any point the base image and a container can be baked together to form a new image.
 
-If there are no changes you want to keep since the container has started, you can also delete the temporary filesystem once you have stopped the container. This way you can treat your container as **immutable server** (which is a very good idea for various reasons).
+Due to the fact containers only holds the changes to the filesystem (deltas), containers itself are normally quite small and can be transfered between different environments within seconds.
+
+If there are no changes to the filesystem you want to keep, you can delete the container once you have stopped it. This way you can treat your containers as **immutable server**.
 
 Docker is based on [LXC (Linux Containers)](https://en.wikipedia.org/wiki/LXC).
 
