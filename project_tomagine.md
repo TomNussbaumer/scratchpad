@@ -34,3 +34,5 @@ principles to follow for the docker instances:
 * central logging feature?
 * monitoring health and metrics of single docker instances?
 * web gui for administration?
+* backend data store for docker registry? (S3, Azure, Google?)
+* free SSH cert for tomagine.com?
