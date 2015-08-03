@@ -19,4 +19,4 @@ Docker images are strictly readonly. To enable writing for the runtime, a tempor
 
 As far as I know there is no limit on how much images can be layered this way for a single running container. Nevertheless it's a good idea to collapse the image stack into a single image once in a while to prevent performance degration. 
 
-If there are no changes you want to keep since the container is started, you can also delete the temporary filesystem once you have stopped the container. This way you can treat your container as **immutable server**.
+If there are no changes you want to keep since the container has started, you can also delete the temporary filesystem once you have stopped the container. This way you can treat your container as **immutable server** (which is a very good idea for various reasons).
