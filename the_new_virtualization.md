@@ -19,12 +19,12 @@ Nevertheless virtualization has a few drawbacks. Beside the upfront costs of ima
 
 Google, one of the largest players in the IT market, never really got into virtualization itself due to its heavyweight nature, but used containerization since years. With containerization all instances on a machine share a single kernel and the separation is done on process level. The additional benefits are:
 
-* much more lightweight memory and cpu
-* greatly reduced startup time (down from minutes to max. seconds)
-* better utilization of hardware due to it's lightweight nature
-* ... there are more due to the excellent opensource tooling which is surfacing now ...
+* much more lightweight in regards of memory and cpu
+* fast provisioning (down from minutes to max. seconds)
+* near bare metal utilization of hardware due to it's lightweight nature
+* ... there are much more benefits due to the excellent (opensource) tooling available ...
 
-Of course there are also some drawbacks, for example security. Process level separation will never be as secure as complete isolated VMs. It depends completely on your use case(s) which one (virtualization or containerization) is the better solution for you. But you can nevertheless mix and match as you are pleased: run a few VMs side by side with some containers, or run some containers in one or more of the VMs. There are endless possibilities ...
+Of course there are also some drawbacks, for example security concerns. Process level separation will never be as secure as complete isolated VMs. It depends completely on your use case(s) if virtualization or containerization is the better solution for you. But you can nevertheless mix and match as you are pleased: run a few VMs side by side with some containers, or run some containers in one or more of the VMs. There are endless possibilities ...
 
 Actually containerization is mainly driven by opensource projects (how great is this?). The standard solution is [Docker](www.docker.com).
 
