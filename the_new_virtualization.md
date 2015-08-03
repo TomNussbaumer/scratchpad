@@ -4,13 +4,15 @@ In the '90 Sun Microsystems coined the slogan [Write Once, Run Anywhere (WORA)](
 
 The next revolutionary step was the advent of virtualization. Instead of just abstracting away the hardware for a single application it abstracted it away for a complete system including the operation system itself. Just to name a few benefits:
 
+* better utilization of hardware (infrastructure optimization)
+* portability (bundle once, run anywhere)
 * recovery from critical crashes within minutes
-* better utilization of hardware
 * "frozen" setups aka "immutable servers"
-* sharing of complete setups just a matter of sharing a single file
+* sharing of complete setups is just a matter of sharing a single file
 * simplified automation including system setup and various test scenarios
 * separation of different applications/services into isolated VMs
-* security (due to: separation/isolation)
+* security (due to separation/isolation)
+* reduced complexity (due to separation)
 * ... and and and ...
 
 Nevertheless virtualization has a few drawbacks. Beside the upfront costs of image generation (which takes quite some time) and image transfers (also time consuming), it's quite a heavyweight approach when it comes to runtime costs in terms of startup time, memory and cpu consumption.
@@ -26,4 +28,4 @@ Of course there are also some drawbacks, for example security. Process level sep
 
 Actually containerization is mainly driven by opensource projects (how great is this?). The standard solution is [Docker](www.docker.com).
 
-In the next part I will focus on what docker is exactly, how to setup it and how to use it.
+[In the next part](docker-up-and-running.md) I will focus on what docker is exactly, how to setup it and how to use it.
