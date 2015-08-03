@@ -17,7 +17,7 @@ The next revolutionary step was the advent of virtualization. Instead of just ab
 
 Nevertheless virtualization has a few drawbacks. Beside the upfront costs of image generation (which takes quite some time) and image transfers (also time consuming), it's quite a heavyweight approach when it comes to runtime costs in terms of startup time, memory and cpu consumption.
 
-Google, one of the largest players in the IT market, never really got into virtualization itself due to its heavyweight nature, but used containerization since years. With containerization all instances on a machine share a single kernel and the separation is done on process level. The benefits are:
+Google, one of the largest players in the IT market, never really got into virtualization itself due to its heavyweight nature, but used containerization since years. With containerization all instances on a machine share a single kernel and the separation is done on process level. The additional benefits are:
 
 * much more lightweight memory and cpu
 * greatly reduced startup time (down from minutes to max. seconds)
