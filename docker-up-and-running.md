@@ -22,3 +22,33 @@ As far as I know there is no limit on how much images can be layered this way fo
 If there are no changes you want to keep since the container has started, you can also delete the temporary filesystem once you have stopped the container. This way you can treat your container as **immutable server** (which is a very good idea for various reasons).
 
 Docker is based on [LXC (Linux Containers)](https://en.wikipedia.org/wiki/LXC).
+
+## Installing, upgrading, deleting Docker
+
+When you are running Ubuntu 14.04 like me installation, upgrading and deleting can be handled by the following one-liners.
+
+**Installation or Upgrade**
+
+> $ wget -qO- https://get.docker.com/ | sh
+
+**Uninstallation (Docker package only)**
+
+> $ sudo apt-get purge docker-engine
+
+**Uninstallation (Docker + dependencies)**
+
+> $ sudo apt-get autoremove --purge docker-engine
+
+The above commands will not remove images, containers, volumes, or user created configuration files on your host. If you wish to delete all images, containers, and volumes run the following command:
+
+> $ rm -rf /var/lib/docker
+
+##Configuration of Docker
+
+To enable a user to run docker containers, the user must be part of the docker group. 
+
+> $ sudo usermod -aG docker name-of-user
+
+Remember that you will have to log out and back in for this to take effect!
+
+
