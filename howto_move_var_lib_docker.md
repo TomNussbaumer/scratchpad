@@ -1,6 +1,6 @@
 # How to move /var/lib/docker
 
-If you'll ever run out of space on the partition where the docker store its data, the simplest solution is to move the complete /var/lib/docker folder somewhere else and symlink to its new location.
+If you'll ever run out of space on the partition where docker stores its data, the simplest solution is to move the complete /var/lib/docker folder somewhere else and insert a symlink to its new location.
 
 Of course you could also reconfigure docker to use an other directory, but exporting and importing all the stuff from your local repository becomes time consuming fast.
 
