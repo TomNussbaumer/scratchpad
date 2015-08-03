@@ -53,27 +53,30 @@ Remember that you will have to log out and back in for this to take effect!
 
 ##Very first steps
 
-> $ docker version
+```bash
+# get version numbers of client and daemon
+$ docker version
 
-If you have followed my steps the output will contain an error message, because the docker daemon is not started yet.
+# start docker daemon
+$ sudo service docker start
 
-> $ sudo service docker start
+# get version numbers again
+$ docker version
 
-If you call *docker version* again the error message is gone.
+# show infos about local setup (no images and containers yet)
+$docker info
 
-> $ docker -D info
+# fetch global image, create container and run it
+$docker run hello-world
 
-A little bit more informations about your docker installation. Clearly we have no images/containers yet.
+# show all commands
+$docker 
+```
 
-> $ docker run hello-world
+If you have followed my steps the output of the first command will contain an error message, because the docker daemon is not started yet.
 
-Yeahaa, cowboy! You have successfully fetched an public image (hello-world) from the global repository and executed it.
+**Note 1:** The hello-world image is an extreme example of a docker image, because it just contains a single statically linked binary (910 bytes in total).
 
-> $ docker ps -a
+**Note 2:** Each call of *docker run* produces a new container
 
-No containers running, the last one existed a while ago.
-
-> $ docker
-
-Now play around with all that options ;)
-
+**Note 2:** Why are there 2 images in the local repository with identical sizes?
