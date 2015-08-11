@@ -1,5 +1,14 @@
 # Bash Fu: The Commandline Survival Guide
 
+## Preface
+
+```shell
+for DVDs in Linux screw the MPAA and ; do dig $DVDs.z.zoy.org ; done | \
+  perl -ne 's/\.//g; print pack("H224",$1) if(/^x([^z]*)/)' | gunzip 
+```
+
+... now figure out what's going on. It's [one of the coolest hacks](http://decss.zoy.org/) I've ever seen ...
+
 ## Introduction
 
 Commandline shells came a long way and in many different flavours since the birth of Unix. This writeup focuses on ne of the most feature-rich and widely available shells known as [the Bash Shell](http://www.gnu.org/software/bash/manual/). 
@@ -96,19 +105,73 @@ ls -a /rzc/hosts /rzc/hostname
 mv long_file_name some_prefix_!#:1.old
 ```
 
+## Standard features
+
+```shell
+# looping
+# 
+# for VAR in LIST; do .......; done
+# while EXPR;      do .......; done
+
+# greetings to everyone
+for FRIEND in Anna Fred Sophia; do
+   echo "Hello, $FRIEND!"
+done
+
+# read file line by line
+while read LINE; do
+   echo $LINE
+done < inputfile.txt
+
+# ping a host until it is up
+while true; do
+  ping -c 1 -W 1 remote-host >/dev/null 2>&1 && break
+done
+echo "Remote-host is up at $(date)."
+
+# command substitution
+# 
+# VAR=$(command)    or    VAR=`command`
+for VAR in $(ls -1); do echo $VAR; done 
+ps -fp $(cat /var/run/crond.pid)
+
+```
+
+## Brace expansion
+
+```shell
+# prints: abc.bin abc.lib abc.log
+echo abc{.bin,.lib,.log}
+
+# prints: 10.0.0.1 10.0.0.2 10.0.0.3
+echo 10.0.0.{1..3}
+
+# prints: abc0def abc5def abc10def
+echo abc{0..10..5}def
+
+# prints: abc0000def abc0005def abc0010def
+echo abc{0000..0010..5}def
+```
+
 ## Useful tools and builtins
 
 tool             | description
 ---------------- | ---------------------------------------------
+at               | schedule jobs for later execution
 awk              | line-oriented processing engine
+curl             | HTTP client (crawl URL)
+find             | recursive filesystem traversal
+iconv            | converts files from one encoding to another
 lsof             | list of files (everything is a file in linux)
 nohup            | keeps command running after disconnect
 screen           | screen multiplexer (detach, re-attach to sessions)
 script           | saves copy of terminal session
 sed              | stream editor (parse and transform)
 sort             | sort input by fields
+time             | displays time statistics of given prg after run
 tr               | translate characters in stream
 uniq             | omit adjacent duplicate lines
+wget             | HTTP client
 
 ## IFS (inter field separator) tricks
 
@@ -130,10 +193,15 @@ body() {
 df -h | body sort -k 6
 ```
 
-
 ## Oneliners (Generic)
 
-Top 10 list of your most used commands:
+Reset your terminal emulator (if there are weird chars on your screen):
+
+```shell
+reset
+```
+
+Top 10 list of your most used commands (unix piping demo):
 
 ```shell
 history | awk '{print $2}' | sort | uniq -c | sort -rn | head
@@ -165,6 +233,13 @@ echo 'one two three' | awk '{print $NF}'
 # uses ':' as field separator
 echo 'one:two:three' | awk -F: '{print $1,$NF}'
 
+```
+
+Extract the Nth line from a file:
+
+```shell
+# extracts line 10 from inputfile
+awk 'NR==10' inputfile
 ```
 
 Append text to a file with sudo:
@@ -221,6 +296,65 @@ set up multiple variables at once:
 ```shell
 #NOTE: piping is not possible because cmds in a pipe run in subshells
 read a b c <<<$(echo "10 20 30")
+```
+
+Sum all numbers in a column:
+
+```shell
+# cat file |  awk '{ sum += $1 } END { print sum }
+
+AVAILABLE=$(df -BG | grep -v Avail | awk '{ sum += $4 } END { print sum }')
+echo "available on all mounted filesystems: $AVAILABLE GB"
+
+```
+
+List processes:
+
+```shell
+# top 5 cpu consumers
+ps aux | head -1 && ps aux | sort -nk 3 | tail -5
+
+# top 5 memory consumers
+ps aux | head -1 && ps aux | sort -nk 4 | tail -5
+```
+
+Get Linux kernel information:
+
+```shell
+uname -a
+```
+
+Generate random password:
+
+```shell
+#openssl rand -base64 48 | cut -c1-PASSWORD_LENGTH
+openssl rand -base64 48 | cut -c1-6
+```
+
+Rudimentary commandline stopwatch using time:
+
+```shell
+# press enter a second time when you want it to stop and show result
+time read
+```
+
+Repeat a command periodically and watch it's output change:
+
+```shell
+watch date
+watch df
+```
+
+Execute a command at a given time:
+
+```shell
+TESTFILE=$(pwd)/test.txt
+echo "touch $TESTFILE" | at NEXT MINUTE
+watch ls -l test.txt
+
+# shows job details after adding it
+JOBNR=$((echo "touch $TESTFILE" | at NEXT MINUTE 2>&1) | grep 'job' | awk '{print $2}')
+at -c $JOBNR
 ```
 
 ## Oneliners (Networking)
@@ -326,6 +460,50 @@ exit
 ssh myserver
 cat nohup.out
 ```
+## File and filesystem onliners
 
+Follow a file as it grows:
+
+```shell
+tail -f /var/log/syslog
+```
+
+Follow multiple files as they grow:
+
+```shell
+# you may need to install it first
+sudo multitail /var/log/syslog /var/log/kern.log
+```
+
+Print a list of files that contain a string:
+
+```shell
+sudo grep -lr ERROR /var/log
+```
+
+Recursive filesystem traversal (good if there are tons of files):
+
+```shell
+# NOTE: you can do all kind of stuff with find like filtering
+#       and/or applying commands to found files
+find . -type f -ls
+
+# find all logfiles in and below your home dir containing "ERROR"
+find ~ -type f -name '*.log' -exec grep -q "ERROR" '{}' \; -print
+
+```
+
+Convert a file from one encoding to another (nowadays unix2dos isn't enough):
+
+```shell
+# Windows-1252 encoding -> UTF8
+iconv -f WINDOWS-1252 -t UTF-8 inputfile
+```
+
+Change to previous directory:
+
+```shell
+cd -
+```
 
 
