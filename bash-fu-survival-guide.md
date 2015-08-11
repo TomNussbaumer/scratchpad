@@ -100,21 +100,100 @@ mv long_file_name some_prefix_!#:1.old
 
 tool             | description
 ---------------- | --------------------------------
+awk              | line-oriented processing engine
 script           | saves copy of terminal session
-
+sed              | stream editor (parse and transform)
+tr               | translate characters in stream
 
 ## Oneliners
 
-Top 10 of your most used commands:
+Top 10 list of your most used commands:
 
 ```shell
 history | awk '{print $2}' | sort | uniq -c | sort -rn | head
 ```
 
-Strip out comments and empty lines:
+Strip out comments and blank lines:
 
 ```shell
 # -v invert matches
 # -E use regular expression
-grep -v -E "^#|^$" file
+grep -v -E "^#|^$" a_text_file
 ```
+
+Use local vim to edit files on remote host:
+
+```shell
+vim scp://remote-host//path/to/file
+vim scp://remote-user@remote-host//path/to/file
+```
+
+Display out in a table:
+
+```shell
+echo -e 'one two\nthree four' | column -t
+```
+
+Extract words from output:
+
+```shell
+# extracts second word
+echo 'one two three' | awk '{print $2}'
+
+# extracts last word
+echo 'one two three' | awk '{print $NF}'
+
+# uses ':' as field separator
+echo 'one:two:three' | awk -F: '{print $1,$NF}'
+
+```
+
+Append text to a file with sudo:
+
+```shell
+# generate file only writable by root
+sudo touch demo.txt
+
+# this doesn't work
+sudo whoami >> test.txt
+
+# this works!
+echo "whoami" | sudo tee -a test.txt
+
+# this works, too (subshell approach)
+sudo bash -c 'whoami >> test.txt'
+```
+
+Display $PATH in a human readable form:
+
+```shell
+echo $PATH | tr ':' '\n'
+```
+
+Fast file creation without editor:
+
+```shell
+# press <ctrl-d> to close the file
+cat > test.txt
+```
+
+Show special characters:
+
+```shell
+echo -e "\t\b\n" | cat -te
+```
+
+Extract multiple lines from a stream:
+
+```shell
+# first line of output will match start-pattern
+# last line of output will match stop-pattern 
+cat something | awk '/start-pattern/','/start-pattern/'
+```
+
+Delete a block between two Strings:
+
+```shell
+cat something | sed '/start-pattern/,/stop-pattern/d'
+```
+
