@@ -47,7 +47,7 @@ fc -l
 # list all previous commands
 history
 
-# list last five commands
+# list five latest commands
 history | tail -5
 
 # clear history
@@ -57,44 +57,46 @@ history -c
 echo 'hello world!'
 !!
 
-# repeat command from history index
+# repeat command from history index (you'll need another number!)
 !1370
 
 # repeat last command starting with given chars (searches backwards)
 echo 'hello world!'
 !ech
 
-# reuse second word of previous command
+# reuse second word of prev. command
 ls /etc
 cd !^
 
-# reuse last word of previous command
+# reuse last word of prev. command
 ls -a /etc
 cd !$
 cd -   # additional TRICK: return to previous directory
 
-# reuse the Nth word from previous command
-# !!:N
-# reuse the Nth word from command starting with given chars
-# !abc:N
+# reuse the Nth word from prev. command ( !!:N )
+ls -l /etc/hosts /etc/hostname
+cat !!:2 
 
-# repeat the previous command while substituting a string
-# ^string1^string2^
+# reuse the Nth word from command starting with given chars ( !abc:N )
+cat !ls:2
+
+# repeat prev. command while removing a string ( ^str^ )
+ls -a /xxxetc/hosts
+^xxx^
+
+# repeat prev. command while substituting a string ( ^str1^str2^ )
 ls -a /rzc/hosts
 ^rz^et^
 
-# repeat the previous command while substituting a string multiple times
-# ^string1^string2^:&
-/rzc/hosts /rzc/hostname
+# repeat prev. command while substituting multiple times ( ^str1^str2^:& )
+ls -a /rzc/hosts /rzc/hostname
 ^rz^et^:&
 
-# reference a word of the current command and reuse it
-# !#:N
+# reference a word of the current command and reuse it ( !#:N )
 mv long_file_name some_prefix_!#:1.old
 ```
 
 ## Useful tools and builtins
-
 
 tool             | description
 ---------------- | --------------------------------
@@ -105,16 +107,14 @@ script           | saves copy of terminal session
 
 Top 10 of your most used commands:
 
-
-```
+```shell
 history | awk '{print $2}' | sort | uniq -c | sort -rn | head
 ```
 
 Strip out comments and empty lines:
 
-```
+```shell
 # -v invert matches
 # -E use regular expression
 grep -v -E "^#|^$" file
 ```
-
