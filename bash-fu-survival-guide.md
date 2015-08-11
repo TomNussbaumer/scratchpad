@@ -460,7 +460,7 @@ exit
 ssh myserver
 cat nohup.out
 ```
-## File and filesystem onliners
+## File and filesystem oneliners
 
 Follow a file as it grows:
 
