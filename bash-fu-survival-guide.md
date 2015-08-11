@@ -99,13 +99,39 @@ mv long_file_name some_prefix_!#:1.old
 ## Useful tools and builtins
 
 tool             | description
----------------- | --------------------------------
+---------------- | ---------------------------------------------
 awk              | line-oriented processing engine
+lsof             | list of files (everything is a file in linux)
+nohup            | keeps command running after disconnect
+screen           | screen multiplexer (detach, re-attach to sessions)
 script           | saves copy of terminal session
 sed              | stream editor (parse and transform)
+sort             | sort input by fields
 tr               | translate characters in stream
+uniq             | omit adjacent duplicate lines
 
-## Oneliners
+## IFS (inter field separator) tricks
+
+```shell
+# extract fields from passwd file
+# (NOTE: manipulation of IFS in subshell doesn't affect current shell)
+cat /etc/passwd | ( \
+			IFS=: ; while read lognam pw id gp fname home sh; \
+				do echo $home \"$fname\"; done \
+				)
+
+# sort input while leaving header line intact
+# (append function body to your .bashrc and you can use it everywhere)
+body() {
+  IFS= read -r HEADER
+  printf '%s\n' "$HEADER"
+  "$@"
+}
+df -h | body sort -k 6
+```
+
+
+## Oneliners (Generic)
 
 Top 10 list of your most used commands:
 
@@ -121,14 +147,7 @@ Strip out comments and blank lines:
 grep -v -E "^#|^$" a_text_file
 ```
 
-Use local vim to edit files on remote host:
-
-```shell
-vim scp://remote-host//path/to/file
-vim scp://remote-user@remote-host//path/to/file
-```
-
-Display out in a table:
+Format output as table:
 
 ```shell
 echo -e 'one two\nthree four' | column -t
@@ -196,4 +215,117 @@ Delete a block between two Strings:
 ```shell
 cat something | sed '/start-pattern/,/stop-pattern/d'
 ```
+
+set up multiple variables at once:
+
+```shell
+#NOTE: piping is not possible because cmds in a pipe run in subshells
+read a b c <<<$(echo "10 20 30")
+```
+
+## Oneliners (Networking)
+
+Use local vim to edit files on remote host:
+
+```shell
+vim scp://remote-host//path/to/file
+vim scp://remote-user@remote-host//path/to/file
+```
+
+Mount a directory from remote server via SSH:
+
+```shell
+# mount
+sshfs remote-user@remote-host:/directory mountpoint
+# unmount
+fusermount -u mountpiont
+```
+
+Get own public IP address/name:
+
+```shell
+# for more see:
+#   https://www.ipify.org
+#   http://www.statdns.com/api
+IP=$(curl https://api.ipify.org)
+curl http://api.statdns.com/x/$IP
+
+```
+
+Show open network connections:
+
+```shell
+sudo lsof -Pni
+```
+
+Compare difference between remote and local file:
+
+```shell
+ssh remote-host cat /path/to/remotefile | diff /path/to/localfile -
+```
+
+Send a file as email attachment:
+
+```shell
+echo "see attachment" | mail -s "the requested file" -a /tmp/files.tgz tom@mycorp.net
+```
+
+SSH tunneling (local port forwarding):
+
+```shell
+# forward local port 9000 to google.com port 80 using remote host as man-in-the-middle
+ssh -nNT -L 9000:google.com:80 user@remotehost
+
+# forward local port 9000 to localhost port 2222 of remote host
+ssh -nNT -L 9000:localhost:2222 user@remotehost
+```
+
+SSH tunneling (remote port forwarding):
+
+```shell
+# forwards port 9000 of remotehost to localhost 3000
+# (requires "GatewayPorts yes" in /etc/ssh/sshd_config)
+
+ssh -R 9000:localhost:3000 user@remotehost
+```
+
+Dynamically proxying via SSH for secure surfing on open wireless hotspots:
+
+```shell
+# proxies all connections to 1080 via ssh to remote host
+# configure your browser to use that port and you are done
+ssh -ND 1080 user@remotehost
+```
+
+Which programs listen on which ports:
+
+```shell
+sudo netstat -nutlp
+```
+
+Disconnect from a remote session and reconnect later:
+
+```shell
+ssh remotehost
+screen
+# start some work
+top
+# === press <ctrl-a> <d> ===
+exit
+# reconnect
+ssh remotehost
+screen -r
+```
+
+Run a command immune to hangups:
+
+```shell
+ssh myserver
+nohup important-script.sh &
+exit
+ssh myserver
+cat nohup.out
+```
+
+
 
