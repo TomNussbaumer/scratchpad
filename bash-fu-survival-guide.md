@@ -294,7 +294,7 @@ Keyword   | Equivalent   | Meaning
 
 Command **crontab** can be used to view and manipulate cron jobs. Editing crontab entries boils down to use a text editor to make any changes to the crontab file.
 
-**IMPORTANT NOTE:* if you use the -r option of crontab for removal, it will remove the complete file which means all your scheduled jobs are gone!!
+**IMPORTANT NOTE:** if you use the -r option of crontab for removal, it will remove the complete file which means all your scheduled jobs are gone!!
 
 Cron has one major drawback: if doesn't check if it has missed to run a scheduled job (i.e. due to a shutdown). If you need garanteed executions you have to install and use something like [Anacron](https://www.google.at/search?q=anacron). 
 
