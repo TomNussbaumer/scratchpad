@@ -134,13 +134,29 @@ echo "Remote-host is up at $(date)."
 # VAR=$(command)    or    VAR=`command`
 for VAR in $(ls -1); do echo $VAR; done 
 ps -fp $(cat /var/run/crond.pid)
+```
 
+## Special options / flags of Bash
+
+There are many more flags and options, but the most commonly used ones are below. Type `help set' in a bash shell to see more.
+
+```shell
+# print commands and their arguments as they are executed
+set -x
+
+# exit immediately if a command exits with a non-zero status
+set -e
+
+#  the return value of a pipeline is the status of
+#  the last command to exit with a non-zero status,
+#  or zero if no command exited with a non-zero status
+set -o pipefail
 ```
 
 ## Brace expansion
 
 ```shell
-# make a backup - executes: cp test.txt test.txt.bak
+# make a backup - executes: cp test.log test.log.bak
 cp test.log{,.bak}
 
 # prints: abc.bin abc.lib abc.log
@@ -166,6 +182,18 @@ echo {z..x}
 
 # character sequence with increment - prints: a c e
 echo {a..e..2}
+
+# multiple expansions - prints: a1.txt a2.txt a3.txt b1.txt b2.txt b3.txt
+echo {a..b}{1..3}.txt
+```
+
+**NOTE:** Brace expansion is the very first step of the shell's expansions. **Variables will be replaced by their values after brace expansion is done.** So you can't use dynamic sequences like this:
+
+```shell
+# pitfall: loop runs only once and prints: {1..3}
+start=1
+end=3
+for i in {$start..$end}; do echo $i; done
 ```
 
 ## Useful tools and builtins
@@ -521,4 +549,41 @@ Change to previous directory:
 cd -
 ```
 
+Using find (more examples):
 
+```shell
+# find by fixed name
+find . -name "MyTest.log"
+
+# ignoring character cases
+find . -iname "MyTest.log"
+
+# with limited search depth
+find / -maxdepth 2 -name passwd
+
+# with min/max search depth
+find / -mindepth 2 -maxdepth 2 -name passwd
+
+# with a special type (tpye=directory in the following case)
+find . -type d
+
+# executing commands
+find . -maxdepth 1 -type f -exec md5sum {} \;
+
+# invert next match option (multiple match options are applied after each other)
+find /var/log -maxdepth 1 -not -type d -not -name "*.gz" -not -name "*log*"
+
+# find by file permissions and list them
+# note: the following find returns files with are writable by everyone in /etc
+#       !! it should not find anything !!
+find /etc -maxdepth 1 -perm -a=w -exec ls -l {} \;
+
+# find top 5 largest files in your home directory
+find ~ -type f -exec ls -s {} \; | sort -n -r | head -5
+
+# bigger than a given size
+find ~ -size +100M
+
+# small than a given size
+find ~ -size +100M
+```
