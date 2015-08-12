@@ -283,8 +283,10 @@ The numeric fields can hold single values, lists and/or ranges:
 Additionally to the above specifications you can also use the following special keywords: 
 
 Keyword   | Equivalent   | Meaning
---------- | ------------ | -------------------------
+--------- | ------------ | ---------------------------------
 @yearly   | 0 0 1 1 *    | every January 1st at 0:00
+@monthly  | 0 0 1 * *    | every first day of month at 0:00
+@weekly   | 0 0 * * 0    | every sunday at 0:00
 @daily    | 0 0 * * *    | every day at 0:00
 @hourly   | 0 * * * *    | every hour at minute 0
 @reboot   | none         | run at startup
@@ -293,6 +295,8 @@ Keyword   | Equivalent   | Meaning
 Command **crontab** can be used to view and manipulate cron jobs. Editing crontab entries boils down to use a text editor to make any changes to the crontab file.
 
 **IMPORTANT NOTE:* if you use the -r option of crontab for removal, it will remove the complete file which means all your scheduled jobs are gone!!
+
+Cron has one major drawback: if doesn't check if it has missed to run a scheduled job (i.e. due to a shutdown). If you need garanteed executions you have to install and use something like [Anacron](https://www.google.at/search?q=anacron). 
 
 
 ## Oneliners (Generic)
