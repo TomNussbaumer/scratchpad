@@ -140,17 +140,32 @@ ps -fp $(cat /var/run/crond.pid)
 ## Brace expansion
 
 ```shell
+# make a backup - executes: cp test.txt test.txt.bak
+cp test.log{,.bak}
+
 # prints: abc.bin abc.lib abc.log
 echo abc{.bin,.lib,.log}
 
-# prints: 10.0.0.1 10.0.0.2 10.0.0.3
+# sequence - prints: 10.0.0.1 10.0.0.2 10.0.0.3
 echo 10.0.0.{1..3}
 
-# prints: abc0def abc5def abc10def
+# sequence with increment - prints: abc0def abc5def abc10def
 echo abc{0..10..5}def
 
-# prints: abc0000def abc0005def abc0010def
-echo abc{0000..0010..5}def
+# sequence with padding - prints: abc000def abc001def abc002def
+echo abc{000..002}def
+
+# backward sequence - prints: x9 x8 x7
+echo x{9..7}
+
+# character sequence - prints: a b c d e
+echo {a..e}
+
+# character sequence backwards - prints: z x
+echo {z..x}
+
+# character sequence with increment - prints: a c e
+echo {a..e..2}
 ```
 
 ## Useful tools and builtins
