@@ -586,4 +586,37 @@ find ~ -size +100M
 
 # small than a given size
 find ~ -size +100M
+
+# find files which match time characteristics
+
+find . -mmin 60    # modified in the last hour
+find . -mtime 1    # modified in the last 24 hours (= 1 day)
+find . -amin 60    # accessed in the last hour (may be disabled for a filesystem!)
+find . -atime 1    # accessed in the last 24 hours
+find . -cmin 60    # changed in the last hour
+find . -ctime 1    # changed in the last 24 hours
+
+# find files modified after modification of given file
+find . -newer /etc/hosts
+
+# find files accessed after modification of given file
+find . -anewer /etc/hosts
+
+# find files which status has changed after modification of given file
+find . -cnewer /etc/hosts
+
+#---------------------------------------------------------------------
+# That's a very useful one:
+#
+# find only on given filesystem (don't descent into mounts)
+#---------------------------------------------------------------------
+find / -xdev -size +100M
+
+#---------------------------------------------------------------------
+# Another very useful one:
+#
+# executing TWO finds in ONE run and print result to different files
+#---------------------------------------------------------------------
+find /var/log  \( -name '*.log' -fprintf ./ext-log.txt '%-10s %p\n' \) , \
+               \( -name '*.gz'  -fprintf ./ext-gz.txt  '%-10s %p\n' \)
 ```
