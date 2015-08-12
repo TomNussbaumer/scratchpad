@@ -202,6 +202,7 @@ tool             | description
 ---------------- | ---------------------------------------------
 at               | schedule jobs for later execution
 awk              | line-oriented processing engine
+crontab          | schedule regular jobs
 curl             | HTTP client (crawl URL)
 find             | recursive filesystem traversal
 iconv            | converts files from one encoding to another
@@ -235,6 +236,64 @@ body() {
 }
 df -h | body sort -k 6
 ```
+
+## The Magic of Cron/Crontab
+
+Cron is a job scheduler with can be found on almost all unix-like systems. It's basic usage is to execute jobs at specified times.
+
+The configuration of cron is stored in files as a table (hence crontab). The format of a single configuration row is:
+
+```
+MIN HOUR DAY MON DOW CMD
+```
+
+The following table describes the fields and their allowed values:
+
+Field | Description   | Allowed Value
+----- | ------------- | -------------
+MIN   | Minute field  | 0 to 59
+HOUR  | Hour field    | 0 to 23
+DAY   | Day of Month  | 1 to 31
+MON   | Month field   | 1 to 12
+DOW   | Day Of Week   | 0 to 6 (0==Sunday)
+CMD   | Command       | command to execute
+
+The configuration of a job which should execute on August 1st at 17:30 will look like this:
+
+```
+30 17 1 8 * /home/johndoe/important-background-job.sh
+```
+
+The numeric fields can hold single values, lists and/or ranges:
+
+```
+# will execute at minute 11, 23 and 57 every hour
+11,23,57 * * * * /home/johndoe/irregular-minutes.sh
+
+# will execute every hour from 09:00 to 18:00 during weekdays (excl. the weekend)
+00 09-18 * * 1-5 /home/johndoe/working-hours.sh
+
+# will execute every 5 minutes
+*/5 * * * * /home/johndoe/every-5-minutes.sh
+
+# will execute every 2 minutes in the first 10 minutes of each hour
+0-10/2 * * * * /home/johndoe/every-2nd-minutes-of-0-to-10.sh
+```
+
+Additionally to the above specifications you can also use the following special keywords: 
+
+Keyword   | Equivalent   | Meaning
+--------- | ------------ | -------------------------
+@yearly   | 0 0 1 1 *    | every January 1st at 0:00
+@daily    | 0 0 * * *    | every day at 0:00
+@hourly   | 0 * * * *    | every hour at minute 0
+@reboot   | none         | run at startup
+
+
+Command **crontab** can be used to view and manipulate cron jobs. Editing crontab entries boils down to use a text editor to make any changes to the crontab file.
+
+**IMPORTANT NOTE:* if you use the -r option of crontab for removal, it will remove the complete file which means all your scheduled jobs are gone!!
+
 
 ## Oneliners (Generic)
 
