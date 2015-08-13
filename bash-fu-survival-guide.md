@@ -153,6 +153,90 @@ set -e
 set -o pipefail
 ```
 
+## Special variables (incomplete list)
+
+**$BASH**&nbsp;&nbsp;&nbsp;&nbsp;path to Bash binary
+```shell
+echo $BASH  # prints: /bin/bash
+```
+
+**$BASH_SUBSHELL**&nbsp;&nbsp;&nbsp;&nbsp;indicates the subshell level
+```shell
+# prints lvl=1 lvl=2 lvl=3
+echo lvl=$BASH_SUBSHELL $(echo lvl=$BASH_SUBSHELL $(echo lvl=$BASH_SUBSHELL))"
+```
+**$PPID**&nbsp;&nbsp;&nbsp;&nbsp;process id of parent<br/>
+**$$**&nbsp;&nbsp;&nbsp;&nbsp;process id of toplevel shell<br/> 
+**$BASHPID**&nbsp;&nbsp;&nbsp;&nbsp;process id of actual subshell<br/>
+```shell
+echo "top=$PPID:$$:$BASHPID" && (echo "sub=$PPID:$$:$BASHPID")
+```
+
+**$BASH_VERSION**&nbsp;&nbsp;&nbsp;&nbsp;version string of bash<br/>
+**$BASH_VERSINFO[n]**&nbsp;&nbsp;&nbsp;&nbsp;array containing version infos as separated fields<br/>
+```shell
+echo "\$BASH_VERSION = $BASH_VERSION"
+for i in {0..5}; do echo "\$BASH_VERSINFO[$i] = ${BASH_VERSINFO[$i]}"; done 
+```
+
+**$LINENO**&nbsp;&nbsp;&nbsp;&nbsp;actual line number in script<br/>
+**$PIPESTATUS**&nbsp;&nbsp;&nbsp;&nbsp;array holding  exit statuses of each pipe path<br/>
+```shell
+# note the error in the last sed
+echo "hello world!" | sed 's/hello/goodbye/' | sed 's/'
+echo ${PIPESTATUS[*]}  # prints 0 0 1
+# $PIPESTATUS is only available directly after the pipe(s). 
+echo ${PIPESTATUS[*]} # prints 0
+```
+
+**$PWD**&nbsp;&nbsp;&nbsp;&nbsp;current working directory (same as output of command _pwd_ )
+```shell
+echo "PWD=$PWD"
+echo "pwd=$(pwd)"
+```
+
+**$UID**&nbsp;&nbsp;&nbsp;&nbsp;user id of user executing the script
+```shell
+#!/bin/bash
+# am-i-root.sh: determines if user is root
+if [ "$UID" -eq "0" ];then
+  echo "You are root."
+  exit 0
+fi
+echo "Just an ordinary user."
+exit 1
+```
+
+**$?**&nbsp;&nbsp;&nbsp;&nbsp;exit code of latest executed command, function or script. The exit code of a program should be 0 if it executed correctly.
+```shell
+[ "abc" = "abc" ]; echo "result of [abc=abc] is $?"
+[ "abc" = "def" ]; echo "result of [abc=def] is $?"
+```
+
+**$!**&nbsp;&nbsp;&nbsp;&nbsp;process id of lastest started background job
+```shell
+CMD="sleep 10"
+$CMD &
+echo "pid of sleep=$!"
+```
+
+**$_**&nbsp;&nbsp;&nbsp;&nbsp;final argument of previously executed command. Note: the variable may not hold what you expect if the executed command is an alias.
+```shell
+ls >/dev/null
+echo "final arg of [ls]     = $_"
+ls -al >/dev/null
+echo "final arg of [ls -al] = $_"
+```
+
+### Positional Parameters
+
+1. **$0, $1, $2, etc.**&nbsp;&nbsp;&nbsp;&nbsp;Positional parameters passed from command line to script or passed to a function
+2. **$#**&nbsp;&nbsp;&nbsp;&nbsp;Number of command line arguments or positional parameters
+3. __$*__&nbsp;&nbsp;&nbsp;&nbsp;All positional parameters seen as a single word (must be quoted!)
+4. **$@**&nbsp;&nbsp;&nbsp;&nbsp;Same as $*, but each paramter is a quoted string (must be quoted!)
+
+Command _shift_ can be used to remove the first or more parameters from _$@_.
+
 ## Brace expansion
 
 ```shell
