@@ -9,6 +9,24 @@ for DVDs in Linux screw the MPAA and ; do dig $DVDs.z.zoy.org ; done | \
 
 ... now figure out what's going on. It's [one of the coolest hacks](http://decss.zoy.org/) I've ever seen ...
 
+## Table of Content
+
+  * [Introduction](#introduction)
+  * [History Goodness](#history-goodness)
+    * [History related builtin commands](#history-related-builtin-commands)
+    * [Examples](#examples)
+  * [Standard features](#standard-features)
+  * [Special options / flags of Bash](#special-options--flags-of-bash)
+  * [Special variables (incomplete list)](#special-variables-incomplete-list)
+    * [Positional Parameters](#positional-parameters)
+  * [Brace expansion](#brace-expansion)
+  * [Useful tools and builtins](#useful-tools-and-builtins)
+  * [IFS (inter field separator) tricks](#ifs-inter-field-separator-tricks)
+  * [The Magic of Cron/Crontab](#the-magic-of-croncrontab)
+  * [Oneliners (Generic)](#oneliners-generic)
+  * [Oneliners (Networking)](#oneliners-networking)
+  * [File and filesystem oneliners](#file-and-filesystem-oneliners)
+
 ## Introduction
 
 Commandline shells came a long way and in many different flavours since the birth of Unix. This writeup focuses on ne of the most feature-rich and widely available shells known as [the Bash Shell](http://www.gnu.org/software/bash/manual/). 
