@@ -16,6 +16,9 @@ for DVDs in Linux screw the MPAA and ; do dig $DVDs.z.zoy.org ; done | \
     * [History related builtin commands](#history-related-builtin-commands)
     * [Examples](#examples)
   * [Standard features](#standard-features)
+    * [Looping](#looping)
+    * [Case switch](#case-switch)
+    * [Command substitution](#command-substitution)
   * [Special options / flags of Bash](#special-options--flags-of-bash)
   * [Special variables (incomplete list)](#special-variables-incomplete-list)
     * [Positional Parameters](#positional-parameters)
@@ -125,11 +128,14 @@ mv long_file_name some_prefix_!#:1.old
 
 ## Standard features
 
+### Looping
+
 ```shell
-# looping
-# 
 # for VAR in LIST; do .......; done
 # while EXPR;      do .......; done
+#
+# break      ...  exits a loop
+# continue   ...  continues immediately with next loop iteration 
 
 # greetings to everyone
 for FRIEND in Anna Fred Sophia; do
@@ -146,10 +152,35 @@ while true; do
   ping -c 1 -W 1 remote-host >/dev/null 2>&1 && break
 done
 echo "Remote-host is up at $(date)."
+```
 
-# command substitution
-# 
-# VAR=$(command)    or    VAR=`command`
+### Case switch
+
+```shell
+echo -n "do you like me (y|Y|yes|Yes|n|N|No|no)? "
+read choice
+echo
+# just for demonstration. normally it is much better to truncate the choice to its first letter
+# and convert it to lowercase for simple testing.
+
+case $choice in
+     [yY] | [yY]es) echo "i like you, too." ;;
+     [nN] | [nN]o)  echo "but i like YOU!" ;;
+     *) echo "WTF?";;
+esac
+}
+```
+
+### Command substitution
+
+Executes command(s) in a subshell and return it's output.
+
+Syntax variants:
+
+1. $( ......)
+2. `......`
+
+```shell
 for VAR in $(ls -1); do echo $VAR; done 
 ps -fp $(cat /var/run/crond.pid)
 ```
