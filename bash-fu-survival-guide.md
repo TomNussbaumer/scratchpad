@@ -530,6 +530,14 @@ Delete a block between two Strings:
 cat something | sed '/start-pattern/,/stop-pattern/d'
 ```
 
+Append a title line to a file:
+
+```
+file=data.txt
+title="***This is the title line of data text file***"
+echo $title | cat - $file >$file.new
+```
+
 set up multiple variables at once:
 
 ```shell
