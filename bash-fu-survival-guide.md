@@ -349,6 +349,8 @@ time             | displays time statistics of given prg after run
 tr               | translate characters in stream
 uniq             | omit adjacent duplicate lines
 wget             | HTTP client
+xmllint          | valid xml, run xpath expression against xml/html
+xsltproc         | perform xsl transformations
 
 ## IFS (inter field separator) tricks
 
