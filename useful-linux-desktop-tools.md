@@ -8,6 +8,10 @@ As a software developer, I have almost always multiple terminal sessions open. I
 
   * Alt + Up/Down/Left/Right == switch to terminal
   * F11 == toogle fullscreen (Yeeehaa!)
+   
+### Getting the most out of Terminator
+
+[Blogpost from Al4](http://blog.al4.co.nz/2011/05/getting-the-most-out-of-terminator/)
 
 ### Screenshot
 
