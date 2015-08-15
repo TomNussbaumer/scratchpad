@@ -606,6 +606,14 @@ JOBNR=$((echo "touch $TESTFILE" | at NEXT MINUTE 2>&1) | grep 'job' | awk '{prin
 at -c $JOBNR
 ```
 
+# check multiple files for existence and return the first one found
+
+```shell
+CMD=$(type -p ./time /usr/bin/time /bin/time /usr/local/bin/time | head -1)
+if [ -z "$CMD" ]; then echo "ERROR: command time not found"; fi
+```
+
+
 ## Oneliners (Networking)
 
 Use local vim to edit files on remote host:
