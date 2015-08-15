@@ -609,10 +609,15 @@ at -c $JOBNR
 # check multiple files for existence and return the first one found
 
 ```shell
-CMD=$(type -p ./time /usr/bin/time /bin/time /usr/local/bin/time | head -1)
+CMD=$(type -p ./awk awk gawk | head -1)
 if [ -z "$CMD" ]; then echo "ERROR: command time not found"; fi
 ```
 
+# remove first (or more) lines from a stream
+
+```shell
+ps aux | grep tail -n +2 | sed '...something...'
+``` 
 
 ## Oneliners (Networking)
 
