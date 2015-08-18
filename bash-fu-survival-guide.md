@@ -29,6 +29,7 @@ for DVDs in Linux screw the MPAA and ; do dig $DVDs.z.zoy.org ; done | \
   * [Oneliners (Generic)](#oneliners-generic)
   * [Oneliners (Networking)](#oneliners-networking)
   * [File and filesystem oneliners](#file-and-filesystem-oneliners)
+  * [Pitfalls](#pitfalls)
 
 ## Introduction
 
@@ -839,3 +840,40 @@ find / -xdev -size +100M
 find /var/log  \( -name '*.log' -fprintf ./ext-log.txt '%-10s %p\n' \) , \
                \( -name '*.gz'  -fprintf ./ext-gz.txt  '%-10s %p\n' \)
 ```
+
+## Pitfalls
+
+There are many pitfalls related to script programming. I'll just start with one that bugged me today.
+
+**keyword `local` destroys content of $?**
+
+```
+hello () {
+   echo -n "is my exitcode 1?"
+   return 1
+}
+
+variant1 () {
+   local res=$(hello)    # <--- DON'T do this!!
+   if [ $? -ne 0 ]; then
+     echo "$res yes - exitcode != 0 detected"
+   else
+     echo "$res no - exitcode == 0"
+   fi
+}
+
+variant2 () {
+   local res;    # THIS is the correct way. Separated into two lines.
+   res=$(hello)
+   if [ $? -ne 0 ]; then
+     echo "$res yes - exitcode != 0 detected"
+   else
+     echo "$res no - exitcode == 0"
+   fi
+}
+
+variant1  # WRONG result!!!
+variant2  # CORRECT result
+
+```
+
