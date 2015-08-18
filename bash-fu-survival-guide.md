@@ -847,7 +847,7 @@ There are many pitfalls related to script programming. I'll just start with one 
 
 **keyword `local` destroys content of $?**
 
-```
+```shell
 hello () {
    echo -n "is my exitcode 1?"
    return 1
