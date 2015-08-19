@@ -74,6 +74,19 @@ docker run -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:ro ......
 docker run -e DISPLAY -v $HOME/.Xauthority:/root/.Xauthority:ro ......
 ```
 
+### Disable security features
+
+Normally the host's security settings prevents running tools like `strace` in a container.
+
+```
+## variant 1 (specify exactly what should be enabled)
+## ... this is enough to run strace ...
+docker run --cap-add SYS_PTRACE --security-opt apparmor:unconfined .... 
+
+## variant 2 (disable all security measures)
+docker run --privileged ....
+```
+
 ## Cleantime
 
 ```
