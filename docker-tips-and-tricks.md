@@ -4,7 +4,7 @@ Docker is a quite fast running target. Make sure to use the latest stable releas
 
 ## Buildtime
 
-### Using environment variables
+### Using Environment Variables
 
 You can use environment variables anywhere in a Dockerfile:
 
@@ -26,7 +26,7 @@ RUN     $DEMO_CMD
 
 ## Runtime
 
-### Piping through containers
+### Piping through Containers
 
 ```
 ## process log files by piping them through container
@@ -40,7 +40,7 @@ docker logs $ID | wc -l
 docker rm $ID
 ```
 
-### Filtering and formatting the output of `docker ps`
+### Filtering and Formatting the Output of `docker ps`
 
 **Note:** formatting the output of `docker ps` was introduced in version 1.8.1. Check the output of `docker version` and upgrade if necessary. 
 
@@ -74,7 +74,7 @@ docker run -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:ro ......
 docker run -e DISPLAY -v $HOME/.Xauthority:/root/.Xauthority:ro ......
 ```
 
-### Disable security features
+### Disable Security Features
 
 Normally the host's security settings prevents running tools like `strace` in a container.
 
@@ -85,6 +85,15 @@ docker run --cap-add SYS_PTRACE --security-opt apparmor:unconfined ....
 
 ## variant 2 (disable all security measures)
 docker run --privileged ....
+```
+
+### Controlling Docker from within a Container
+
+To control the docker daemon on the host from within a container you'll need to bind-mount the docker socket to the container.
+
+```
+## mount the docker daemon socket to the container
+docker run -v /var/run/docker.sock:/var/run/docker.sock ....
 ```
 
 ## Cleantime
