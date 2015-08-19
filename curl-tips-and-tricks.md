@@ -21,5 +21,14 @@ curl -i -s $URL  | grep "ssh_url" | less
 ## fetch HTTP headers only
 ## NOTE: there are links for pagination in the headers!
 curl -I -s $URL
+
+## write headers and data to different files (data.00 and data.01)
+curl -si $URL | csplit -f data. -s - '/^\s$/'
+
+## BETTER: split result in-memory in different variables
+##         (requires two sed runs, but no disk access)
+RESULT=$(curl -si $URL)
+HEADER=$(echo -n "$RESULT" | sed '/^\s$/q')
+BODY=$(echo -n "$RESULT" | sed '1,/^\s$/d')
 ```
 
