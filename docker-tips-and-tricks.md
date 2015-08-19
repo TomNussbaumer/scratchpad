@@ -22,7 +22,6 @@ ENV DEMO_DIR="/bin" DEMO_CMD="ls -la"
 # from here on you can use the env vars
 WORKDIR $DEMO_DIR
 RUN     $DEMO_CMD
-
 ```
 
 ## Runtime
@@ -39,7 +38,6 @@ cat /var/log/messages | docker run -i --rm busybox grep 'docker' | wc -l
 ID=$(cat /var/log/messages | docker run -i -a stdin busybox grep 'docker'); 
 docker logs $ID | wc -l
 docker rm $ID
-
 ```
 
 ### Filtering and formatting the output of `docker ps`
@@ -47,25 +45,31 @@ docker rm $ID
 **Note:** formatting the output of `docker ps` was introduced in version 1.8.1. Check the output of `docker version` and upgrade if necessary. 
 
 ```
+## filtering examples
+##
+## -f id=12345
+## -f label=akey - or -  label=akey=avalue
+## -f name=substring   
+## -f exited=1      (don't forget --all)
+## -f status=type   (created|restarting|running|paused|exited)
 
-
+docker ps -a -f name=ss   # show all with name containing 'ss'
 
 ## format example (less columns)
 ##
 ## NOTE: you can guess the column names by examine the output of the normal 
 ##       'docker ps' command. Only column ID is special (.ID)
 docker ps -a --format="table {{.Names}}\\t{{.Image}}\\t{{.Ports}}\\t{{.Status}}"
-
 ```
 
 ## Cleantime
 
 ```
-## removing ALL containers 
+## removing ALL stopped containers 
 docker rm $(docker ps -aq)       # variant 1
 docker ps -aq | xargs docker rm  # variant 2
 
 ## removing untagged images
 docker rmi $(docker images | grep “^<none>” | awk ‘{print $3}’)
-
+``
 
