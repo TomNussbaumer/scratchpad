@@ -24,6 +24,7 @@ for DVDs in Linux screw the MPAA and ; do dig $DVDs.z.zoy.org ; done | \
     * [Positional Parameters](#positional-parameters)
   * [Brace expansion](#brace-expansion)
   * [Useful tools and builtins](#useful-tools-and-builtins)
+  * [Debugging tools](#debugging-tools)
   * [IFS (inter field separator) tricks](#ifs-inter-field-separator-tricks)
   * [The Magic of Cron/Crontab](#the-magic-of-croncrontab)
   * [Oneliners (Generic)](#oneliners-generic)
@@ -340,7 +341,6 @@ crontab          | schedule regular jobs
 curl             | HTTP client (crawl URL)
 find             | recursive filesystem traversal
 iconv            | converts files from one encoding to another
-lsof             | list of files (everything is a file in linux)
 nohup            | keeps command running after disconnect
 screen           | screen multiplexer (detach, re-attach to sessions)
 script           | saves copy of terminal session
@@ -352,6 +352,31 @@ uniq             | omit adjacent duplicate lines
 wget             | HTTP client
 xmllint          | valid xml, run xpath expression against xml/html
 xsltproc         | perform xsl transformations
+
+
+## Debugging tools
+
+tool             | description
+---------------- | ---------------------------------------------
+inotifywait      | monitors file system events
+iostats          | reports CPU and disk I/O statistics
+ldd              | print shared library dependencies
+lsof             | lists open files
+mpstat           | reports detailed processor statistics
+netstat          | displays various network related infos
+ntop             | network traffic monitor
+objdump          | displays information from object files
+pmap             | displays memory map of a process
+ps               | displays processes
+sar              | monitor system real time performance
+ss               | socket statistics
+strace           | trace system calls and signals
+tcpdump          | network packet analyzer
+top              | process monitor
+vmstats          | reports virtual memory statistics
+
+All system related informations on a linux system can be found either in /sys or in /proc, which are both virtual filesystems exported by the kernel.
+
 
 ## IFS (inter field separator) tricks
 
