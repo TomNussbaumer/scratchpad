@@ -62,6 +62,18 @@ docker ps -a -f name=ss   # show all with name containing 'ss'
 docker ps -a --format="table {{.Names}}\\t{{.Image}}\\t{{.Ports}}\\t{{.Status}}"
 ```
 
+### Share X11 directly
+
+```
+## variant 1 - share X11 socket directly
+docker run -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:ro ......
+
+### variant 2 - share the .Xauthority file (READONLY)
+# NOTE: must be mounted to the home directory of the container user
+#       (in the example the homedir of root)
+docker run -e DISPLAY -v $HOME/.Xauthority:/root/.Xauthority:ro ......
+```
+
 ## Cleantime
 
 ```
