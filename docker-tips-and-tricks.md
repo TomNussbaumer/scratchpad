@@ -123,6 +123,10 @@ docker run -v /var/run/docker.sock:/var/run/docker.sock ....
 docker rm $(docker ps -aq)       # variant 1
 docker ps -aq | xargs docker rm  # variant 2
 
+## removing ALL stopped container and ALL of their automatically created VOLUMES
+docker rm -v $(docker ps -aq)       # variant 1
+docker ps -aq | xargs docker rm -v  # variant 2
+
 ## removing untagged/unneeded images
 docker rmi $(docker images | grep “^<none>” | awk ‘{print $3}’) # variant 1
 docker rmi $(docker images -aqf dangling=true)                  # variant 2
