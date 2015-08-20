@@ -154,6 +154,16 @@ echo "msg=$message"   # prints: msg=Hello World!
 echo 'msg=$message'   # prints: msg=$message      (no substitution!!!)
 ```
 
+**Hinting variable names:**
+
+Sometimes it is unclear where a variable name ends. In such cases you have to embed the variable name within curled brackets.
+
+```shell
+hello="Hello "
+echo "$helloworld"     # prints nothing!
+echo "${hello}world"   # prints: Hello world
+```
+
 **Quotes within Quotes:**
 
 If you need to embed quotes within quotes, you have to escape them (prefix them with `\') if they matches the surrounding quotes.
