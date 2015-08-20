@@ -6,7 +6,7 @@ Docker is a quite fast running target. Make sure to use the latest stable releas
 
 ### Using Environment Variables
 
-You can use environment variables anywhere in a Dockerfile:
+You can use environment variables which are specified in the same Dockerfile anywhere in it:
 
 ```
 ##-------------------------------------------------------
@@ -23,6 +23,17 @@ ENV DEMO_DIR="/bin" DEMO_CMD="ls -la"
 WORKDIR $DEMO_DIR
 RUN     $DEMO_CMD
 ```
+
+### Volumes are Evil!
+
+Well, no, they are not exactly evil per se, but you have to be very carefully to manage them. If you have a VOLUME line anywhere in your Dockerfile a volume will be automatically created each time a container will be created **unless** you specify to re-use a volume from an already existing container.
+
+This behaviour in combination with the lacking/missing tooling for volumes may lead to many many dangling volumes you are not aware of filling up your disk.
+
+IMHO you are much better off **NOT using keyword VOLUME at all**, but handle all volumes via commandline parameters of `docker create` and `docker run` with explicit host pathnames.
+
+**NOTE 1:** automatically created volumes can be found in /var/lib/docker/volumes.
+**NOTE 2:** Since Docker images are built on each other using the VOLUME keyword in a Dockerfile is even more evil. Always inspect image (`docker inspect an_image`) before usage and check for section `Volumes` to verify if it will automatically created volumes. The official nginx image, for example, does exactly that - trashing your disk without you knowing it ...
 
 ### Using a Docker image as build environment
 
