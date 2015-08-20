@@ -16,6 +16,7 @@ for DVDs in Linux screw the MPAA and ; do dig $DVDs.z.zoy.org ; done | \
     * [History related builtin commands](#history-related-builtin-commands)
     * [Examples](#examples)
   * [Standard features](#standard-features)
+    * [Variable Substitution](#variable-substitution)
     * [Looping](#looping)
     * [Case switch](#case-switch)
     * [Command substitution](#command-substitution)
@@ -129,6 +130,65 @@ mv long_file_name some_prefix_!#:1.old
 ```
 
 ## Standard features
+
+### Variable Substitution
+
+Variable substitution is the mechanism which replaces a variable by its value.
+
+```shell
+## simple example
+message=Hello
+echo $message # prints: Hello
+## This will fail
+message=Hello world # this will fail!
+```
+
+The second assignment to myname will fail, because there is a space in the value. If there are spaces or any special characters in a value it must be quoted. Quoting can be done in two ways:
+
+  * single quotes: embedded in single quotes a string will not further processed
+  * double quotes: within double quotes variables will be replaced by their values
+
+```shell
+message="Hello World!"
+echo "msg=$message"   # prints: msg=Hello World!
+echo 'msg=$message'   # prints: msg=$message      (no substitution!!!)
+```
+
+**Quotes within Quotes:**
+
+If you need to embed quotes within quotes, you have to escape them (prefix them with `\') if they matches the surrounding quotes.
+
+```shell
+echo "What a \"wonderful\" world!"   # prints: What a "wonderful" world!
+echo 'What a "wonderful" world!'     # doubles quotes in single quotes are okay
+echo "What a 'wonderful' world!"     # single quotes in doubles quotes are okay
+```
+
+**Quotes Concatenation:**
+
+As long as there are no spaces or any special characters between quoted sequences they will be concatenated by the shell. You can concatenate double quoted sequences with non-quotes and single quotes as you like.
+
+```shell
+msg="He"l"lo ""wor"'ld'"!"  # .... what a weird example ;)
+echo $msg                   # prints: hello world!
+```
+
+Concatenation is very useful if you need to use variable substitution in a, otherwise, single quoted string.
+
+```shell
+## awk can be used to extract columns from an input line like this:
+ls -l / | awk '{print $1}' | head -3
+
+## NOTE how the command for awk needs to be single-quoted, because $1 should
+## not substituted by its value by the shell itself!
+
+## suppose you want to use a variable to control which column gets extracted:
+COLUMN_NUMBER=2
+ls -l / | awk '{print $'$COLUMN_NUMBER'}' | head -3
+
+# works! :))
+
+```
 
 ### Looping
 
