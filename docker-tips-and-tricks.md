@@ -24,6 +24,15 @@ WORKDIR $DEMO_DIR
 RUN     $DEMO_CMD
 ```
 
+### Using a Docker image as build environment
+
+Setting up build environments is painful. What tools are required? Are the tools on the building platform available? Behave the tools exactly the same (i.e. different versions or different brands)? And and and ...
+
+With docker that burden is gone. Embed everything that's needed in a docker image and build everywhere without problems. 
+
+An example of Docker as build environment which even does cross compiling for multiple platforms can be found [here](https://github.com/tianon/gosu).
+
+
 ## Runtime
 
 ### Piping through Containers
@@ -107,4 +116,3 @@ docker ps -aq | xargs docker rm  # variant 2
 docker rmi $(docker images | grep “^<none>” | awk ‘{print $3}’) # variant 1
 docker rmi $(docker images -aqf dangling=true)                  # variant 2
 ``
-
