@@ -140,10 +140,10 @@ Variable substitution is the mechanism which replaces a variable by its value.
 message=Hello
 echo $message # prints: Hello
 ## This will fail
-message=Hello world # this will fail!
+message=Hello world
 ```
 
-The second assignment to myname will fail, because there is a space in the value. If there are spaces or any special characters in a value it must be quoted. Quoting can be done in two ways:
+The second assignment to `message` will fail, because there is a space in the value. If there are spaces or any special characters in a value it must be quoted. Quoting can be done in two ways:
 
   * single quotes: embedded in single quotes a string will not further processed
   * double quotes: within double quotes variables will be replaced by their values
@@ -176,7 +176,7 @@ echo "What a 'wonderful' world!"     # single quotes in doubles quotes are okay
 
 **Quotes Concatenation:**
 
-As long as there are no spaces or any special characters between quoted sequences they will be concatenated by the shell. You can concatenate double quoted sequences with non-quotes and single quotes as you like.
+As long as there are no spaces or any special characters between quoted sequences they will be concatenated by the shell. You can concatenate double quoted sequences with non-quoted and single quoted as you like.
 
 ```shell
 msg="He"l"lo ""wor"'ld'"!"  # .... what a weird example ;)
@@ -190,9 +190,9 @@ Concatenation is very useful if you need to use variable substitution in a, othe
 ls -l / | awk '{print $1}' | head -3
 
 ## NOTE how the command for awk needs to be single-quoted, because $1 should
-## not substituted by its value by the shell itself!
+## not be substituted by the shell itself, but handed over intact to awk.
 
-## suppose you want to use a variable to control which column gets extracted:
+## suppose now you want to use a variable to control which column gets extracted
 COLUMN_NUMBER=2
 ls -l / | awk '{print $'$COLUMN_NUMBER'}' | head -3
 
