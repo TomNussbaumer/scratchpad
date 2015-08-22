@@ -11,16 +11,16 @@ As a demo project for Docker the host environment should be as simple as possibl
 principles to follow for the docker instances:
 
 * [KISS](en.wikipedia.org/wiki/KISS_principle)
-* one process per instance (as long as practible)
-* immutable servers (mutable data like logs should be written elsewhere)
+* one process per instance (as long as practible) **UPDATE:** no, - read [this](http://github.com/phusion/baseimage-docker/)
+* immutable servers (mutable data like logs should be written elsewhere) **UPDATE:** YES! YES! YES!
 
 
 ## First steps
 
-1. install host environment including Docker, SSH daemon, git and public ssh key for access
-2. install a dockerized nginx instance as reverse proxy with its config outside of the instance
-3. write macros to start/stop/reload proxy
-4. dockerize old environment and write macros to start/stop it
+1. install host environment including Docker, SSH daemon, git and public ssh key for access (CoreOS?)
+2. use a dockerized nginx instance as described [here](http://jasonwilder.com/blog/2014/03/25/automated-nginx-reverse-proxy-for-docker/)
+3. dockerize old environment ([nginx+php fpm](https://github.com/sys42/docker-nginx-php-fpm))
+
 
 ## Additional Steps / Services (unordered list)
 
@@ -28,11 +28,10 @@ principles to follow for the docker instances:
 * private github-like server (either gogs or gitea)
 * private docker repository
 * OpenID server (secrets server for docker instances?)
+* Centralized Logging
+* Centralized Health and Metrics
 
 ## Remarks
 
-* central logging feature?
-* monitoring health (collectd) and metrics of single docker instances?
-* web gui for administration?
 * backend data store for docker registry? (S3, Azure, Google?)
 * free SSH cert for tomagine.com?
