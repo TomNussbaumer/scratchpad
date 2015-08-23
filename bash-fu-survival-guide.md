@@ -32,7 +32,11 @@ for DVDs in Linux screw the MPAA and ; do dig $DVDs.z.zoy.org ; done | \
   * [Oneliners (Networking)](#oneliners-networking)
   * [File and filesystem oneliners](#file-and-filesystem-oneliners)
   * [Pitfalls](#pitfalls)
-  * [Aliases]
+  * [Aliases](#aliases)
+  * [Miscellaneous Utility Functions](#miscellaneous-utility-functions)
+    * [URL encoding](#url-encoding)
+    * [Translations](#translations)
+
 
 ## Introduction
 
@@ -1031,5 +1035,41 @@ alias rmatrix='echo -ne "\e[31m" ; while true ; do echo -ne "\e[$(($RANDOM % 2 +
 alias gmatrix='echo -ne "\e[32m" ; while true ; do echo -ne "\e[$(($RANDOM % 2 + 1))m" ; tr -c "[:print:]" " " < /dev/urandom | dd count=1 bs=50 2> /dev/null ; done'
 ```
 
+## Miscellaneous Utility Functions
 
+### URL encoding
+
+URL encoding strings in bash is hard if you don't want to rely on Python, Perl, Ruby or any other highlevel language. The following function just uses `curl` for URL encoding:
+
+```shell
+urlencode() {
+    local data
+    if [[ $# != 1 ]]; then
+        echo "Usage: $0 string-to-urlencode"
+        return 1
+    fi
+    data="$(curl -s -o /dev/null -w %{url_effective} --get --data-urlencode "$*" "")"
+    if [[ $? != 3 ]]; then
+        echo "Unexpected error" 1>&2
+        return 2
+    fi
+    echo "${data##/?}"
+    return 0
+}
+```
+
+### Translations
+
+Ever needed a quick translation for a term and don't want to fire up a browser? There is [a nice old school site](http://www.dict.org/bin/Dict) which supports quick lookups via curl:
+
+```shell
+###############################################################################
+# (1) requires above urlencode
+# (2) to use more specific dictionaries than 'all' please check 
+#     http://www.dict.org/bin/Dict?Form=Dict4 for supported values
+###############################################################################
+function translate () {
+  curl -s dict://dict.org/d:$(urlencode "$*"):all
+}
+```
 
