@@ -4,7 +4,7 @@
 
 ```shell
 for DVDs in Linux screw the MPAA and ; do dig $DVDs.z.zoy.org ; done | \
-  perl -ne 's/\.//g; print pack("H224",$1) if(/^x([^z]*)/)' | gunzip 
+  perl -ne 's/\.//g; print pack("H224",$1) if(/^x([^z]*)/)' | gunzip
 ```
 
 ... now figure out what's going on. It's [one of the coolest hacks](http://decss.zoy.org/) I've ever seen ...
@@ -35,7 +35,7 @@ for DVDs in Linux screw the MPAA and ; do dig $DVDs.z.zoy.org ; done | \
 
 ## Introduction
 
-Commandline shells came a long way and in many different flavours since the birth of Unix. This writeup focuses on ne of the most feature-rich and widely available shells known as [the Bash Shell](http://www.gnu.org/software/bash/manual/). 
+Commandline shells came a long way and in many different flavours since the birth of Unix. This writeup focuses on ne of the most feature-rich and widely available shells known as [the Bash Shell](http://www.gnu.org/software/bash/manual/).
 
 Eventually (~1988) a standard arrived for Unix-like machines arrived: POSIX.
 
@@ -44,7 +44,7 @@ POSIX is a family of standards which defines:
   1. core programming interface
   2. commandline and scripting interface
   3. user-level programs, services, and utilities (ex.: awk,echo, ed)
-  4. program-level services including basic I/O (ex.: file, terminal, network) 
+  4. program-level services including basic I/O (ex.: file, terminal, network)
   5. standard threading library API
   6. ... many more
 
@@ -58,13 +58,13 @@ Ubuntu, for example, uses Dash and POSIX-compliance for most of their system scr
 
 So why not write all your scripts in the POSIX-compliant way?
 
-It all boils down to one thing: comfort. The POSIX standards for scripts are a quite restricted feature set of what Bash gives you. There aren't even arrays in the standards. 
+It all boils down to one thing: comfort. The POSIX standards for scripts are a quite restricted feature set of what Bash gives you. There aren't even arrays in the standards.
 
 And, of course, writing POSIX-compliant scripts needs a mind switch. Using the bash interactively most of the day, you are used to get things done quickly which means with as less keystrokes as necessary. This almost always involves Bash extensions. When writing a POSIX-compliant script you need to switch your mind to a completely different mode, because all that nice shortcuts are gone.
 
 ## History Goodness
 
->History expansions introduce words from the history list into the input stream, making it easy to repeat commands, insert the arguments to a previous command into the current input line, or fix errors in previous commands quickly. 
+>History expansions introduce words from the history list into the input stream, making it easy to repeat commands, insert the arguments to a previous command into the current input line, or fix errors in previous commands quickly.
 
 ### History related builtin commands
 
@@ -108,7 +108,7 @@ cd -   # additional TRICK: return to previous directory
 
 # reuse the Nth word from prev. command ( !!:N )
 ls -l /etc/hosts /etc/hostname
-cat !!:2 
+cat !!:2
 
 # reuse the Nth word from command starting with given chars ( !abc:N )
 cat !ls:2
@@ -207,7 +207,7 @@ ls -l / | awk '{print $'$COLUMN_NUMBER'}' | head -3
 # while EXPR;      do .......; done
 #
 # break      ...  exits a loop
-# continue   ...  continues immediately with next loop iteration 
+# continue   ...  continues immediately with next loop iteration
 
 # greetings to everyone
 for FRIEND in Anna Fred Sophia; do
@@ -253,7 +253,7 @@ Syntax variants:
 2. `......`
 
 ```shell
-for VAR in $(ls -1); do echo $VAR; done 
+for VAR in $(ls -1); do echo $VAR; done
 ps -fp $(cat /var/run/crond.pid)
 ```
 
@@ -287,7 +287,7 @@ echo $BASH  # prints: /bin/bash
 echo lvl=$BASH_SUBSHELL $(echo lvl=$BASH_SUBSHELL $(echo lvl=$BASH_SUBSHELL))"
 ```
 **$PPID**&nbsp;&nbsp;&nbsp;&nbsp;process id of parent<br/>
-**$$**&nbsp;&nbsp;&nbsp;&nbsp;process id of toplevel shell<br/> 
+**$$**&nbsp;&nbsp;&nbsp;&nbsp;process id of toplevel shell<br/>
 **$BASHPID**&nbsp;&nbsp;&nbsp;&nbsp;process id of actual subshell<br/>
 ```shell
 echo "top=$PPID:$$:$BASHPID" && (echo "sub=$PPID:$$:$BASHPID")
@@ -297,7 +297,7 @@ echo "top=$PPID:$$:$BASHPID" && (echo "sub=$PPID:$$:$BASHPID")
 **$BASH_VERSINFO[n]**&nbsp;&nbsp;&nbsp;&nbsp;array containing version infos as separated fields<br/>
 ```shell
 echo "\$BASH_VERSION = $BASH_VERSION"
-for i in {0..5}; do echo "\$BASH_VERSINFO[$i] = ${BASH_VERSINFO[$i]}"; done 
+for i in {0..5}; do echo "\$BASH_VERSINFO[$i] = ${BASH_VERSINFO[$i]}"; done
 ```
 
 **$LINENO**&nbsp;&nbsp;&nbsp;&nbsp;actual line number in script<br/>
@@ -306,7 +306,7 @@ for i in {0..5}; do echo "\$BASH_VERSINFO[$i] = ${BASH_VERSINFO[$i]}"; done
 # note the error in the last sed
 echo "hello world!" | sed 's/hello/goodbye/' | sed 's/'
 echo ${PIPESTATUS[*]}  # prints 0 0 1
-# $PIPESTATUS is only available directly after the pipe(s). 
+# $PIPESTATUS is only available directly after the pipe(s).
 echo ${PIPESTATUS[*]} # prints 0
 ```
 
@@ -511,7 +511,7 @@ The numeric fields can hold single values, lists and/or ranges:
 0-10/2 * * * * /home/johndoe/every-2nd-minutes-of-0-to-10.sh
 ```
 
-Additionally to the above specifications you can also use the following special keywords: 
+Additionally to the above specifications you can also use the following special keywords:
 
 Keyword   | Equivalent   | Meaning
 --------- | ------------ | ---------------------------------
@@ -527,7 +527,7 @@ Command **crontab** can be used to view and manipulate cron jobs. Editing cronta
 
 **IMPORTANT NOTE:** if you use the -r option of crontab for removal, it will remove the complete file which means all your scheduled jobs are gone!!
 
-Cron has one major drawback: if doesn't check if it has missed to run a scheduled job (i.e. due to a shutdown). If you need garanteed executions you have to install and use something like [Anacron](https://www.google.at/search?q=anacron). 
+Cron has one major drawback: if doesn't check if it has missed to run a scheduled job (i.e. due to a shutdown). If you need garanteed executions you have to install and use something like [Anacron](https://www.google.at/search?q=anacron).
 
 
 ## Oneliners (Generic)
@@ -537,6 +537,13 @@ Reset your terminal emulator (if there are weird chars on your screen):
 ```shell
 reset
 ```
+
+Clears the linux file cache completely. This one is especially useful if you are doing performance tests or want to evaluate how much free memory is really available.
+
+```shell
+sudo sh -c "sync; echo 3 > /proc/sys/vm/drop_caches"
+```
+
 
 Top 10 list of your most used commands (unix piping demo):
 
