@@ -32,6 +32,7 @@ for DVDs in Linux screw the MPAA and ; do dig $DVDs.z.zoy.org ; done | \
   * [Oneliners (Networking)](#oneliners-networking)
   * [File and filesystem oneliners](#file-and-filesystem-oneliners)
   * [Pitfalls](#pitfalls)
+  * [Aliases]
 
 ## Introduction
 
@@ -544,6 +545,11 @@ Clears the linux file cache completely. This one is especially useful if you are
 sudo sh -c "sync; echo 3 > /proc/sys/vm/drop_caches"
 ```
 
+Simple clock:
+
+```shell
+while true; do clear; date --rfc-3339=seconds;sleep 1;done
+```
 
 Top 10 list of your most used commands (unix piping demo):
 
@@ -723,6 +729,12 @@ ps aux | grep tail -n +2 | sed '...something...'
 ``` 
 
 ## Oneliners (Networking)
+
+Append your ssh public key (stored in ~/.ssh/id_rsa.pub) to the authorized_keys file on a remote machine. **NOTE:** This is not for copy-and-paste. You'll need to adapt it to your setup (keyfile name, remote host, remote user). 
+
+```shell
+ssh a_user@a_remote_host 'mkdir -p ~/.ssh && chmod 0700 ~/.ssh && cat >> ~/.ssh/authorized_keys' < ~/.ssh/id_rsa.pub
+```
 
 Use local vim to edit files on remote host:
 
@@ -978,4 +990,46 @@ variant1  # WRONG result!!!
 variant2  # CORRECT result
 
 ```
+
+## Aliases
+
+```shell
+###############################################################################
+# more or less useful bash aliases
+###############################################################################
+
+# pretty print json file
+alias json-pretty-print='python -mjson.tool'
+
+# show all network connections
+alias show-all-network-connections='lsof -i -P +c 0 +M'
+
+# show active network listeners
+alias show-active-network-listeners='lsof -i -P +c 0 +M | grep LISTEN'
+
+# starts a webserver serving current directory
+# append a portnumber if you want a different port: serve-this 6666
+alias serve-dir='python -m SimpleHTTPServer'
+
+# get own external IP
+alias myip='curl -s https://api.ipify.org'
+
+# sudo your last commando
+alias sudo-last='sudo $(history -p !-1)'
+
+# decimal to hex conversion
+alias dec2hex='printf "0x%x\n"'
+
+# hex to decimal conversion (you must prefix the input hexnumber with 0x...)
+alias hex2dec='printf "%d\n"'
+
+# get a random fun fact from randomfunfacts.com
+alias funfact="curl -s randomfunfacts.com | grep '<strong><i>' | sed -e 's/^.*<strong><i>//' -e 's/<\/i><\/strong>.*$//'"
+
+# just for fun: matrix effects for the console
+alias rmatrix='echo -ne "\e[31m" ; while true ; do echo -ne "\e[$(($RANDOM % 2 + 1))m" ; tr -c "[:print:]" " " < /dev/urandom | dd count=1 bs=50 2> /dev/null ; done'
+alias gmatrix='echo -ne "\e[32m" ; while true ; do echo -ne "\e[$(($RANDOM % 2 + 1))m" ; tr -c "[:print:]" " " < /dev/urandom | dd count=1 bs=50 2> /dev/null ; done'
+```
+
+
 
