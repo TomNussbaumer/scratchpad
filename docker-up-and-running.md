@@ -28,39 +28,39 @@ Docker is based on [LXC (Linux Containers)](https://en.wikipedia.org/wiki/LXC).
 When you are running Ubuntu 14.04 like me installation, upgrading and deleting can be handled by the following one-liners.
 
 **Installation or Upgrade**
-``` 
+```
 $ wget -qO- https://get.docker.com/ | sh
 ```
 
 **Uninstallation (Docker package only)**
-``` 
+```
 $ sudo apt-get purge docker-engine
-``` 
+```
 
 **Uninstallation (Docker + dependencies)**
-``` 
+```
 $ sudo apt-get autoremove --purge docker-engine
-``` 
+```
 
 The above commands will not remove images, containers, volumes, or user created configuration files on your host. If you wish to delete all images, containers, and volumes run the following command:
 
-``` 
+```
 $ rm -rf /var/lib/docker
-``` 
+```
 
 ##Initial Configuration of Docker
 
-To enable a user to run docker containers, the user must be part of the docker group. 
+To enable a user to run docker containers, the user must be part of the docker group.
 
-``` 
+```
 $ sudo usermod -aG docker name-of-user
-``` 
+```
 
 Remember that you will have to log out and back in for this to take effect!
 
 ##Very first steps
 
-```bash
+```shell
 # get version numbers of client and daemon
 $ docker version
 
@@ -77,7 +77,7 @@ $docker info
 $docker run hello-world
 
 # show all commands
-$docker 
+$docker
 ```
 
 If you have followed my steps the output of the first command will contain an error message, because the docker daemon is not started yet.
