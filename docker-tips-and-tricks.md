@@ -116,6 +116,16 @@ To control the docker daemon on the host from within a container you'll need to 
 docker run -v /var/run/docker.sock:/var/run/docker.sock ....
 ```
 
+### Get Docker Host Address from within a Container
+
+To get the Docker host address on the private docker network from within a container:
+
+```shell
+## returns gateway (== Docker host address)
+netstat -nr | grep '^0\.0\.0\.0' | awk '{print $2}'
+```
+
+
 ## Cleantime
 
 ```
