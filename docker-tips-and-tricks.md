@@ -125,11 +125,38 @@ To get the Docker host address on the private docker network from within a conta
 netstat -nr | grep '^0\.0\.0\.0' | awk '{print $2}'
 ```
 
+### Get list of mounts within a Container
+
+```shell
+## NOTE: there are always at least 3 mounts within a container
+##       /etc/resolv.conf, /etc/hostname and /etc/hosts
+cat /proc/mounts | grep '^/dev/'
+
+## EXAMPLE
+
+docker run --name=data0 -v /sysdata -v /syscfg busybox sh -c "cat /proc/mounts | grep '^/dev/'"
+docker rm -v data0
+```
+
+### Get own Name and IP of a Container
+
+That's NOT an easy task, because it depends completely on how the container and its net infrastructure is configurated. There are various ways to get the container IP, but the least image depended way (what's installed) is to parse /etc/hosts
+
+```shell
+## if hostname is not configurated it is set to the 12-digit container id
+my_ip=$(cat /etc/hosts | grep $(hostname) | cut -f1)
+my_names=$(cat /etc/hosts | grep "$my_ip" | cut -f2)
+
+## my_names will normally contain 3 names: the 12-digit id, a name and the
+## name with postfix '.bridge'.
+## NOTE: if a hostname is configurated, you will no longer have access to the
+##       12-digit container id from within the container!
+```
 
 ## Cleantime
 
 ```
-## removing ALL stopped containers 
+## removing ALL stopped containers (don't do this in production, of course)
 docker rm $(docker ps -aq)       # variant 1
 docker ps -aq | xargs docker rm  # variant 2
 
