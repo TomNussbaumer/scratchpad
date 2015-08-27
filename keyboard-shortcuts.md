@@ -25,7 +25,7 @@ Shortcut           | Functionality
 ------------------ | ----------------------
 1,2,3,4,6,7,8,9    | directional movement
 5                  | click with mouse button 
+0                  | hold mouse button
 %                  | 5 emulates LEFT button
 *                  | 5 emulates MIDDLE button
 -                  | 5 emulates RIGHT button
-
