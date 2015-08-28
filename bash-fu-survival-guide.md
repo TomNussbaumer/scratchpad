@@ -1078,5 +1078,7 @@ function translate () {
   * [Bash Beginners Guide](http://www.tldp.org/LDP/Bash-Beginners-Guide/html/Bash-Beginners-Guide.html)
   * [Bash Reference Manual](http://www.gnu.org/software/bash/manual/bash.html)
   * [Bash Coding Style](https://github.com/progrium/bashstyle/blob/master/README.md)
+  * [Coding Style Example](https://github.com/gliderlabs/docker-alpine/blob/master/build)
+  * [Another good Example](https://github.com/gliderlabs/docker-alpine/blob/master/builder/scripts/mkimage-alpine.bash)
   * [Bash Hackers Wiki](http://wiki.bash-hackers.org/doku.php)
   * [Obsolete Features](http://wiki.bash-hackers.org/scripting/obsolete)
