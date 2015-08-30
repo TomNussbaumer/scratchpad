@@ -546,7 +546,8 @@ reset
 Clears the linux file cache completely. This one is especially useful if you are doing performance tests or want to evaluate how much free memory is really available.
 
 ```shell
-sudo sh -c "sync; echo 3 > /proc/sys/vm/drop_caches"
+## sync ... forces disk blocks to disk
+sudo sh -c "sync && echo 3 > /proc/sys/vm/drop_caches"
 ```
 
 Simple clock:
