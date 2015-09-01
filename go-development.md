@@ -17,6 +17,8 @@ Well, decide yourself:
   * no declaration of interfaces necessary (just implement the required methods / duck typing)
   * great tooling and docs
   * functions can return more than one value (think of result + errorcode)
+  * lightweight threading (goroutines)
+  * large standard library with excellent support for network/web related stuff
 
 That are just a few of it's virtues. No wonder why so many project like Docker using Go ...
 
