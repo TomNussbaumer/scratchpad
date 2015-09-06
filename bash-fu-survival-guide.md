@@ -719,18 +719,55 @@ JOBNR=$((echo "touch $TESTFILE" | at NEXT MINUTE 2>&1) | grep 'job' | awk '{prin
 at -c $JOBNR
 ```
 
-# check multiple files for existence and return the first one found
+Check multiple files for existence and return the first one found
 
 ```shell
 CMD=$(type -p ./awk awk gawk | head -1)
 if [ -z "$CMD" ]; then echo "ERROR: command time not found"; fi
 ```
 
-# remove first (or more) lines from a stream
+Remove first (or more) lines from a stream
 
 ```shell
 ps aux | grep tail -n +2 | sed '...something...'
 ``` 
+
+Catch 'exit on error'
+
+```
+# exit on any exitcode != 0
+set -e 
+trap 'echo "[ERROR] exitcode=$?"' ERR
+
+false # returns with exitcode=1
+```
+
+Exit on variable not set with message and line number
+
+```
+: ${MYVAR?"Please set MYVAR"}
+```
+
+Set a Default value for a variable if not set previously
+
+```
+MYVAR=${MYVAR:-"this is the default value"}
+```
+
+Replace substring of variable content without sed
+
+```
+MYVAR='Hello world!'
+echo "${MYVAR/Hello/Good Bye}"
+```
+
+Set an environment variable for a subshell/script without polluting/modifying current environment
+
+```
+MYVAR="Hello"
+MYVAR="Goodbye" sh -c 'echo "in subshell: $MYVAR"'
+echo "$MYVAR"
+```
 
 ## Oneliners (Networking)
 
