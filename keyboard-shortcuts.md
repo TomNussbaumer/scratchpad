@@ -4,18 +4,20 @@ Keyboard shortcuts are essential when it comes down to speed. Below is a short c
 
 ### Firefox
 
-Shortcut           | Functionality
------------------- | ----------------------
-Ctrl + l           | focus address bar
-Ctrl + k           | focus search field
-Ctrl + f           | find on page
-Ctrl + t           | new tab
-Ctrl + F4          | close tab
-Ctrl + Tab         | next tab
-Ctrl + Shift + Tab | previous tab
-Alt + Cursor Left  | back
-Alt + Cursor Right | forward
-F11                | toggle fullscreen
+Shortcut                | Functionality
+----------------------- | ----------------------
+Ctrl + l                | focus address bar
+Ctrl + k                | focus search field
+Ctrl + f                | find on page
+Ctrl + t                | new tab
+Ctrl + F4               | close tab
+Ctrl + Tab              | next tab
+Ctrl + Shift + Tab      | previous tab
+Ctrl + Shift + PageUp   | move tab to left
+Ctrl + Shift + PageDown | move tab to right
+Alt + Cursor Left       | back
+Alt + Cursor Right      | forward
+F11                     | toggle fullscreen
 
 ### Ubuntu - Numpad Mouse Emulation
 
