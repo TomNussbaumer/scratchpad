@@ -1084,7 +1084,7 @@ Bash commandline completion is a very large topic. I'll just cover the most simp
 ## cd to directory where a command is located
 cdc () {
   local cmd=$(which "$1")
-  [ z "$cmd" ] && echo "$1 not found" && return 1
+  [ -z "$cmd" ] && echo "$1 not found" && return 1
   cd $(dirname "$cmd")
 }
 
