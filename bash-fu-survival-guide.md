@@ -33,6 +33,7 @@ for DVDs in Linux screw the MPAA and ; do dig $DVDs.z.zoy.org ; done | \
   * [File and filesystem oneliners](#file-and-filesystem-oneliners)
   * [Pitfalls](#pitfalls)
   * [Aliases](#aliases)
+  * [Bash Completion](#bash-completion)
   * [Miscellaneous Utility Functions](#miscellaneous-utility-functions)
     * [URL encoding](#url-encoding)
     * [Translations](#translations)
@@ -1073,6 +1074,35 @@ alias rmatrix='echo -ne "\e[31m" ; while true ; do echo -ne "\e[$(($RANDOM % 2 +
 alias gmatrix='echo -ne "\e[32m" ; while true ; do echo -ne "\e[$(($RANDOM % 2 + 1))m" ; tr -c "[:print:]" " " < /dev/urandom | dd count=1 bs=50 2> /dev/null ; done'
 ```
 
+## Bash Completion
+
+Bash commandline completion is a very large topic. I'll just cover the most simplest usages here.
+
+**Examples:**
+
+```shell
+## cd to directory where a command is located
+cdc () {
+  local cmd=$(which "$1")
+  [ z "$cmd" ] && echo "$1 not found" && return 1
+  cd $(dirname "$cmd")
+}
+
+## function cdc should use command completion
+complete -c cdc
+
+## start gedit with given file as background job with stdin/stdout piped to /dev/null
+ge () {
+  gedit "$1" >&2 2>/dev/null &
+}
+
+## function ge should use file and directory completion
+complete -f -d ge
+```
+
+See [http://www.thegeekstuff.com/2013/12/bash-completion-complete/](http://www.thegeekstuff.com/2013/12/bash-completion-complete/) for more examples.
+
+
 ## Miscellaneous Utility Functions
 
 ### URL encoding
@@ -1106,7 +1136,7 @@ Ever needed a quick translation for a term and don't want to fire up a browser? 
 # (2) to use more specific dictionaries than 'all' please check 
 #     http://www.dict.org/bin/Dict?Form=Dict4 for supported values
 ###############################################################################
-function translate () {
+translate () {
   curl -s dict://dict.org/d:$(urlencode "$*"):all
 }
 ```
