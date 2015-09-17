@@ -448,7 +448,7 @@ sar              | monitor system real time performance
 ss               | socket statistics
 strace           | trace system calls and signals
 tcpdump          | network packet analyzer
-top              | process monitor
+top, htop        | process monitor (htop == improved top)
 vmstats          | reports virtual memory statistics
 
 All system related informations on a linux system can be found either in /sys or in /proc, which are both virtual filesystems exported by the kernel.
